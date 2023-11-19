@@ -1,0 +1,65 @@
+﻿@model sachOnline_Binh.DONDATHANG
+
+@{
+    ViewBag.Title = "DsDonHang";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .detail-container {
+        text-align: left; /* Căn lề trái cho nội dung */
+        max-width: 600px; /* Giới hạn chiều rộng */
+        margin: 0 auto; /* Căn giữa theo chiều ngang */
+        padding: 20px; /* Khoảng cách xung quanh */
+        background-color: #f5f5f5; /* Màu nền */
+        border: 1px solid #ddd; /* Viền */
+        border-radius: 10px; /* Góc bo tròn */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+    }
+
+    .detail-value {
+        margin: 10px 0; /* Khoảng cách giữa các thông tin */
+    }
+
+    .detail-value-img img {
+        max-width: 200px; /* Điều chỉnh kích thước của ảnh */
+        display: block; /* Đảm bảo ảnh không bị tràn ra ngoài dòng */
+        margin: 0 auto; /* Căn giữa ảnh trong div */
+    }
+
+    .detail-label {
+        font-weight: bold; /* Đậm chữ cho nhãn */
+        display: inline-block; /* Hiển thị nhãn trên cùng một hàng với dữ liệu */
+        width: 150px; /* Điều chỉnh chiều rộng của nhãn */
+    }
+</style>
+
+<div class="detail-container">
+    <h2 style="text-align:center">@ViewBag.Title</h2>
+
+    <div class="detail-value">
+        <span class="detail-label">Mã đơn hàng:</span> @Model.MaDonHang
+    </div>
+
+    <div class="detail-value">
+        <span class="detail-label">Mã khách hàng:</span> @Model.MaKH
+    </div>
+
+    <div class="detail-value">
+        <span class="detail-label">Đã thanh toán:</span> @Model.DaThanhToan
+    </div>
+
+    <div class="detail-value">
+        <span class="detail-label">Tình trạng giao:</span> @Model.TinhTrangGiaoHang
+    </div>
+
+    <div class="detail-value">
+        <span class="detail-label">Ngày đặt:</span> @Model.NgayDat
+    </div>
+
+    <div class="detail-value">
+        <span class="detail-label">Ngày giao:</span> @Model.NgayGiao
+    </div>
+
+    @* Add other details as needed based on your data structure *@
+</div>

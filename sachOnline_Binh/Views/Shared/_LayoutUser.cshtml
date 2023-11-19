@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/js")
+    <style type="text/css">
+    .imgbook{
+        transition: all 1s ease-in;
+        width: 400px;
+    }
+    .imgbook:hover{
+        transform: scale(0.9);
+        cursor: pointer;
+    }
+    .imgsachbannhieu{
+        width: 100px;
+    }
+    </style>
+</head>
+<body>
+    @Html.Action("NavPartial", "SachOnline")
+    @RenderSection("Slider", required: false)
+    <!-- /.container-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <!--CHỦ ĐỀ và NHÀ XUẤT BẢN-->
+                @Html.Action("ChuDePartial", "SachOnline")
+                <br>
+                @Html.Action("NhaXuatBanPartial", "SachOnline")
+                <br>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                @RenderBody()
+            </div>
+            <hr>
+        </div>
+    </div>
+    <!-- /.container-->
+    @RenderSection("SachBanNhieu", required: false)
+    
+    @Html.Partial("FooterPartial")
+</body>
+</html>

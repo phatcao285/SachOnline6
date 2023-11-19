@@ -1,0 +1,258 @@
+﻿@{
+    ViewBag.Title = "Sach Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<p>
+    <button class="btn btn-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i>Thêm Sách</button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-ms-9">
+                Tên Sách
+            </th>
+            <th class="col-ms-9">
+                Mô tả
+            </th>
+            <th class="col-ms-9">
+                Ảnh bìa
+            </th>
+            <th class="col-ms-9">
+                Ngày cập nhật
+            </th>
+            <th class="col-ms-9">
+                Số lượng
+            </th>
+            <th class="col-ms-9">
+                Giá bán
+            </th>
+            <th class="col-ms-9">
+                Chủ đề
+            </th>
+            <th class="col-ms-9">
+                Nhà xuất bản
+            </th>
+            <th class="col-ms-9 text-right">Các chức năng</th>
+        </tr>
+    </thead>
+    <tbody id="tblDsSach">
+    </tbody>
+</table>
+
+<div class="modal fade" id="modalSach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="panel panel-primary">
+                <div class="panel-heading" id="modalTitle"></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <input type="text" id="maS" value="" hidden />
+                        <label>Tên sách</label>
+                        <input type="text" class="form-control" id="txtTenSach" placeholder="Tên sách" />
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <input type="text" class="form-control" id="txtMoTa" placeholder="Mô tả" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ảnh bìa</label>
+                        <input type="text" class="form-control" id="txtAnhBia" placeholder="Ảnh bìa" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày cập nhật</label>
+                        <input type="date" class="form-control" id="txtNgayCapNhat" />
+                    </div>
+                    <div class="form-group">
+                        <label>Số lượng</label>
+                        <input type="number" class="form-control" id="txtSoLuong" />
+                    </div>
+                    <div class="form-group">
+                        <label>Giá bán</label>
+                        <input type="number" class="form-control" id="txtGiaBan" />
+                    </div>
+                    <div class="form-group">
+                        <label>Chủ đề</label>
+                        <input type="text" class="form-control" id="txtChuDe" placeholder="Chủ đề" />
+                    </div>
+                    <div class="form-group">
+                        <label>Nhà xuất bản</label>
+                        <input type="text" class="form-control" id="txtNhaXuatBan" placeholder="Nhà xuất bản" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSubmit">Lưu</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            LoadDsSach();
+        })
+        function LoadDsSach() {
+            $.ajax({
+                url: '/admin/QLSach/DsSach',
+                type: 'get',
+                success: function (data) {
+                    //console.log(data);
+                    if (data.code == 200) {
+                        $('#tblDsSach').empty();
+                        $.each(data.dsS, function (k, v) {
+                            // Convert the timestamp to a readable date format
+                            var formattedDate = new Date(parseInt(v.NgayCapNhat.substr(6))).toLocaleDateString();
+
+                            let s = '<tr id = "' + v.MaS + '">';
+                            s += '<td class="col-ms-9">' + v.TenS + '</td>';
+                            s += '<td class="col-ms-9">' + (v.MoTa.length > 100 ? v.MoTa.substring(0, 100) + '...' : v.MoTa) + '</td>'; // Truncate and display Mô tả
+                            s += '<td class="col-ms-9">' + v.AnhBia + '</td>'; // Add Ảnh bìa field
+                            s += '<td class="col-ms-9">' + formattedDate + '</td>'; // Display formatted NgayCapNhat
+                            s += '<td class="col-ms-9">' + v.SoLuong + '</td>'; // Add Số lượng field
+                            s += '<td class="col-ms-9">' + v.GiaBan + '</td>'; // Add Giá bán field
+                            s += '<td class="col-ms-9">' + v.ChuDe + '</td>'; // Add Chủ đề field
+                            s += '<td class="col-ms-9">' + v.NhaXuatBan + '</td>'; // Add Nhà xuất bản field
+                            s += '<td class="col-ms-3 text-right">';
+                            s += '<button class="btn btn-sm btn-info" name="view"><i class="fa fa-info-circle" aria-hidden="true"></i></button>&nbsp';
+                            s += '<button class="btn btn-sm btn-warning" name="update"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>&nbsp';
+                            s += '<button class="btn btn-sm btn-danger" name="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>&nbsp';
+                            s += '</td>';
+                            s += '</tr>';
+                            $('#tblDsSach').append(s);
+                        })
+                    }
+                }
+            });
+        }
+
+        $(document).on('click', "button[name='view']", function () {
+            let idS = $(this).closest('tr').attr('id');
+            $.ajax({
+                url: '/admin/QLSach/Detail',
+                type: 'get',
+                data: {
+                    maS: idS
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        //Đưa dữ liệu lên modal
+                        $('#txtTenSach').val(data.s.TenSach);
+                        //Không cho chỉnh sửa trên thẻ input
+                        $('#txtTenSach').prop('readonly', true);
+                        //Ẩn thẻ submit:
+                        $('#btnSubmit').hide();
+                        $('#modalTitle').text('Xem chi tiết Sách');
+                        $('#modalSach').modal();
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                }
+            });
+        });
+        $('#btnAdd').click(function () {
+            $('#modalTitle').text('Thêm mới sách');
+            $('#maS').val('');
+            $('#txtTenSach').val('');
+            //Cho chỉnh sửa trên thẻ input
+            $('#txtTenSach').prop('readonly', false);
+            $('#btnSubmit').show();
+            $('#modalSach').modal();
+        })
+        //Click vào nút update để cập nhật dữ liệu
+        $(document).on('click', "button[name='update']", function () {
+            let idS = $(this).closest('tr').attr('id');
+            $.ajax({
+                url: '/admin/QLSach/Detail',
+                type: 'get',
+                data: {
+                    maS: idS
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        //Đưa dữ liệu lên modal
+                        $('#txtTenSach').val(data.s.TenSach);
+                        //Cho chỉnh sửa trên thẻ input
+                        $('#txtTenSach').prop('readonly', false);
+
+                        //Hiện nút submit:
+                        $('#btnSubmit').show();
+                        $('#modalTitle').text('Cập nhật Sách');
+                        $('#maS').val(idCD);
+                        $('#modalSach').modal();
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            });
+        });
+        $(document).on('click', "button[name='delete']", function () {
+            let idS = $(this).closest('tr').attr('id');
+            if (confirm('Bạn thực sự muốn xóa Sách này')) {
+                $.ajax({
+                    url: '/admin/QLSach/Delete',
+                    type: 'post',
+                    data: {
+                        maS: idS
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            LoadDsSach();
+                        } else {
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }
+        });
+        $('#btnSubmit').click(function () {
+            let strTenSach = $('#txtTenSach').val().trim();
+            if (strTenSach.length == 0) {
+                alert('Vui lòng nhập tên sách');
+                return;
+            }
+            let maS = $('#maS').val().trim();
+            if (maS == 0) {
+                $.ajax({
+                    url: '/admin/QLSach/AddSach',
+                    type: 'post',
+                    data: {
+                        strTenS: strTenSach
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            LoadDsSach();
+                            $('#txtTenSach').val('');
+                        } else {
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: '/admin/QLSach/Update',
+                    type: 'post',
+                    data: {
+                        maS: maS,
+                        strTenS: strTenSach
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            $('#modalSach').modal('hide'); // đóng modal
+                            LoadDsSach();
+                        } else {
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

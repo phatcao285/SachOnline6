@@ -1,0 +1,27 @@
+﻿@model sachOnline_Binh.NHAXUATBAN
+
+@{
+    ViewBag.Title = "ChiTiet";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <h2>Thông tin chi tiết nhà xuất bản</h2>
+    <dl class="dl-horizontal">
+        <dt>Mã nhà xuất bản:</dt>
+        <dd>@Model.MaNXB</dd>
+
+        <dt>Tên nhà xuất bản:</dt>
+        <dd>@Model.TenNXB</dd>
+
+        <dt>Địa chỉ nhà xuất bản:</dt>
+        <dd>@Model.DiaChi</dd>
+
+        <dt>Điện thoại nhà xuất bản:</dt>
+        <dd>@Model.DienThoai</dd>
+    </dl>
+</div>
+
+<div class="text-center">
+    <a href="~/admin/NhaXuatBan/Index" class="btn btn-primary">Quay lại</a>
+</div>

@@ -1,0 +1,74 @@
+﻿@model List<sachOnline_Binh.KHACHHANG>
+@{
+    ViewBag.Title = "Danh sách khách hàng";
+    Layout = "~/Areas/ADMIN/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    h2 {
+        font-size: 30px;
+        margin-top: 20px;
+        font-weight: bold;
+        font-family: sans-serif;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<div>
+    <h2>Danh sách khách hàng</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã khách hàng</th>
+                <th>Họ và tên</th>
+                <th>Tài khoản</th>
+                <th>Mật khẩu</th>
+                <th>Email</th>
+                <th>Địa chỉ</th>
+                <th>Ngày sinh</th>
+                <th>Điện thoại</th>
+                <!-- Thêm các cột khác tương tự -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.MaKH</td>
+                    <td>@customer.HoTen</td>
+                    <td>@customer.TaiKhoan</td>
+                    <td class="password-container">
+                        <input type="password" class="password-input" value="@customer.MatKhau" readonly />
+
+                    </td>
+                    <td>@customer.Email</td>
+                    <td>@customer.DiaChi</td>
+                    <td>@customer.NgaySinh</td>
+                    <td>@customer.DienThoai</td>
+                    <!-- Thêm các cột khác tương tự -->
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

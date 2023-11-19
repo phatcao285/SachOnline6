@@ -1,0 +1,36 @@
+﻿@model sachOnline_Binh.SACH
+@{
+    ViewBag.Title = "Chi tiết sách";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2> Chi tiết sách</h2>
+
+<div class="thumbnail">
+    <h4 class="text-center" style="font-weight:bold">
+        @Model.TenSach
+    </h4>
+    <hr />
+    <img src="~/Images/@Model.AnhBia" alt="@Model.TenSach" class="img-responsive" />
+    <hr />
+    <div class="desc">
+        <p class="text-center">
+            @Html.Raw(Model.MoTa.ToString().Replace("\n", "</p><P>&nbsp&nbsp&nbsp&nbsp&nbsp"))
+        </p>
+    </div>
+    <hr />
+    <div class="text-center">
+        <p style="font-weight:bold">Ngày cập nhật: @Html.FormatValue(Model.NgayCapNhat, "{0:dd/MM/yyyy}")</p>
+        <p>
+            <span style="font-weight:bold">Giá bán: </span>
+            <span style="color:dodgerblue;font-weight:bold">
+                @Html.FormatValue(Model.GiaBan, "{0:#,##0}") VNĐ
+            </span>
+        </p>
+        <p>
+            <a href="@Url.Action("ThemGioHang","GioHang", new { ms = Model.MaSach, url = Request.Url.ToString() })" class="btn btn-primary" role="button">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add to Cart
+            </a>
+        </p>
+    </div>
+</div>

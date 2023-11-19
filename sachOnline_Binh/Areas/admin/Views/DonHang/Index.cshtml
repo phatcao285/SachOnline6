@@ -1,0 +1,137 @@
+﻿@model PagedList.IPagedList<sachOnline_Binh.DONDATHANG>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@{
+    // Sort the Model by order ID in ascending order
+    var sortedModel = Model.OrderBy(d => d.MaDonHang);
+}
+
+<h2>QUẢN LÝ ĐƠN HÀNG</h2>
+
+<table class="table">
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Ngày đặt</th>
+        <th>Ngày giao</th>
+        <th>Tình trạng giao hàng</th>
+        <th>Đã thanh toán</th>
+        <th></th>
+    </tr>
+
+    @foreach (var donHang in Model)
+    {
+        <tr>
+            <td>@donHang.MaDonHang</td>
+            <td>@donHang.NgayDat</td>
+            <td>@donHang.NgayGiao</td>
+            <td>@donHang.TinhTrangGiaoHang</td>
+            <td>@donHang.DaThanhToan</td>
+            <td>
+                @Html.ActionLink("Chi tiết", "ChiTietDonHang", new { id = donHang.MaDonHang })
+            </td>
+        </tr>
+    }
+</table>
+<div class="pagination-container">
+    <ul class="MenuTrang">
+        @Html.PagedListPager(Model, page => Url.Action("Index", "DonHang", new { page }))
+    </ul>
+</div>
+
+<style>
+    /* Phân trang */
+    .MenuTrang {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+        .MenuTrang .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+            .MenuTrang .pagination li {
+                margin: 0 3px;
+            }
+
+                .MenuTrang .pagination li a {
+                    color: #007BFF;
+                    padding: 8px 12px;
+                    text-decoration: none;
+                    border: 1px solid #007BFF;
+                    border-radius: 4px;
+                    transition: background-color 0.3s ease;
+                }
+
+                    .MenuTrang .pagination li a:hover {
+                        background-color: #007BFF;
+                        color: white;
+                    }
+
+            .MenuTrang .pagination .active a {
+                background-color: #007BFF;
+                border: 1px solid #007BFF;
+                color: white;
+            }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f4f4f4;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table th:last-child, .table td:last-child {
+            text-align: center;
+        }
+
+        .table a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+            .table a:hover {
+                color: #0056b3;
+            }
+</style>
+
+

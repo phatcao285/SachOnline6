@@ -1,0 +1,49 @@
+﻿@model IEnumerable<sachOnline_Binh.NHAXUATBAN>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh sách nhà xuất bản</h2>
+
+<p>
+    <a href="~/Admin/NhaXuatBan/ThemMoi">Thêm mới</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên nhà xuất bản
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Điện thoại
+        </th>
+        <th>
+            Cập nhật thông tin
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.TenNXB
+            </td>
+            <td>
+                @item.DiaChi
+            </td>
+            <td>
+                @item.DienThoai
+            </td>
+            <td>
+                <a href="~/Admin/NhaXuatBan/ChiTiet?id=@item.MaNXB">Chi tiết</a> |
+                <a href="~/Admin/NhaXuatBan/Sua?id=@item.MaNXB">Sửa</a> |
+                <a href="~/Admin/NhaXuatBan/Xoa?id=@item.MaNXB">Xóa</a>
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,8 @@
+﻿@model IEnumerable<NHAXUATBAN>
+<ul class="list-group">
+    <li class="list-group-item active" style="font-weight:bold; text-align:center">SÁCH THEO NHÀ XUẤT BẢN</li>
+    @foreach (var i in Model)
+    {
+        <a href="@Url.Action("SachTheoNhaXuatBan","SachOnline", new { MaNXB = i.MaNXB})" class="list-group-item">@i.TenNXB</a>
+    }
+</ul>
